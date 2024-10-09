@@ -4,7 +4,7 @@
 
 # Summary
 Our team's approach consists of the following main components. 
-- stage1 : **heatmap-based detection + gaussian-expanding-label + pretraining-dataset**
+- stage1 : **heatmap-based detection + gaussian-expanding-label + external-dataset**
 - stage2 : **2.5d model(cnn + rnn) + level-wise modeling + two-step training**
 - augmentation : **cutmix(p=1.0)**
 - ensemble : **various backbone ensemble + tta-like ensemble**
@@ -22,7 +22,7 @@ In the early stages of the competition, we used the given points as labels, but 
 
 ![](https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F8251891%2F69ed9f40fda16547c482d67810081a25%2Fheatmap-image.png?generation=1728448201888004&alt=media)
 
-### pretraining-dataset
+### external-dataset
 While the performance with 3d unet was good, the 2d unet combined with a sequential model demonstrated higher accuracy related to the z-axis. Therefore, we ultimately opted for a 2d unet along with a sequential model (transformer, lstm).
 
 For the backbone, efficientnet_b5 provided the best performance. For the axial_t2, we found that increasing the maximum length to accommodate longer sequences improved performance. Additionally, leveraging the [public dataset](https://www.kaggle.com/datasets/brendanartley/lumbar-coordinate-pretraining-dataset) allowed us to make further improvements.
