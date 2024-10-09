@@ -29,7 +29,7 @@ For the backbone, efficientnet_b5 provided the best performance. For the axial_t
 
 # Stage2
 ### 2.5d model(cnn + rnn)
-We used the detection coordinates obtained from stage 1, cropping along the z-axis by ±2 and adjusting the x and y axes by ±32, and then resized the result to (5, 128, 128) for use in stage 2. The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
+We used the detection coordinates obtained from stage 1, cropping along the z-axis by ±2 and adjusting the x and y axes by ±32, and then resized the result (5, 64, 64) -> (5, 128, 128) for use in stage 2. The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
 
 ### level-wise modeling
 However, upon examining the provided data labels, we were able to make the following analysis:
@@ -85,7 +85,7 @@ Based on these methods, we developed various stage 1 and stage 2 models and perf
 Additionally, the ensemble method that yielded the highest score on the private leaderboard was similar to test-time augmentation (tta). Instead of combining the stage 1 models developed by team members and passing them to stage 2 models, we inferred stage 2 models for each individual stage 1 model and then performed an ensemble. 
 
 # Not worked
-- adding the mask from stage 1 to the stage 2 channels
+- adding the mask from stage 1 as the stage 2's cnn channel
 - bigger cnn backbone for stage2
 - label smoothing 
 
