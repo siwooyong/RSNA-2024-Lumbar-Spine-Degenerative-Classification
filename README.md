@@ -23,7 +23,7 @@ In the early stages of the competition, we used the given points as labels, but 
 ![](https://www.googleapis.com/download/storage/v1/b/kaggle-forum-message-attachments/o/inbox%2F8251891%2F69ed9f40fda16547c482d67810081a25%2Fheatmap-image.png?generation=1728448201888004&alt=media)
 
 ### pretraining-dataset
-While the performance with 3D CNNs was good, the 2D CNN combined with a sequential model demonstrated higher accuracy related to the z-axis. Therefore, we ultimately opted for a 2D CNN along with a sequential model (transformer, LSTM).
+While the performance with 3d unet was good, the 2d unet combined with a sequential model demonstrated higher accuracy related to the z-axis. Therefore, we ultimately opted for a 2d unet along with a sequential model (transformer, lstm).
 
 For the backbone, efficientnet_b5 provided the best performance. For the axial_t2, we found that increasing the maximum length to accommodate longer sequences improved performance. Additionally, leveraging the [public dataset](https://www.kaggle.com/datasets/brendanartley/lumbar-coordinate-pretraining-dataset) allowed us to make further improvements.
 
@@ -37,6 +37,18 @@ However, upon examining the provided data labels, we were able to make the follo
 >When symptom 1 is present at the level, there is a high probability that symptoms 2 and 3 will also be present at the same level. 
 
 Therefore, we modified our approach to model sequence only the classes at the same level, rather than all 25 classes. This adjustment significantly improved our score. 
+
+```python
+x = x.reshape(-1, 5, 5, self.hidden_size)
+x = x.permute(0, 2, 1, 3)
+x = x.reshape(-1, 5, self.hidden_size)
+
+x, _ = self.rnn2(x)
+
+x = x.reshape(-1, 5, 5, self.hidden_size)
+x = x.permute(0, 2, 1, 3)
+x = x.reshape(-1, 25, self.hidden_size)
+```
 
 In the later stages of the competition, we also tried concatenating the results of sequence modeling only at the same level and modeling only the same region. However, this approach did not perform better than the results from modeling only at the same level. Additionally, we implemented changes like skip connections, which we then used for our ensemble.
 
@@ -71,4 +83,9 @@ Based on these methods, we developed various stage 1 and stage 2 models and perf
 
 ### tta-like ensemble
 Additionally, the ensemble method that yielded the highest score on the private leaderboard was similar to test-time augmentation (tta). Instead of combining the stage 1 models developed by team members and passing them to stage 2 models, we inferred stage 2 models for each individual stage 1 model and then performed an ensemble. 
+
+# Not worked
+- adding the mask from stage 1 to the stage 2 channels
+- bigger cnn backbone for stage2
+- label smoothing 
 
