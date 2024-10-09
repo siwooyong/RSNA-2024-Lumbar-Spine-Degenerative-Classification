@@ -2,14 +2,14 @@
 🥇5th place solution for RSNA 2024 Lumbar Spine Degenerative Classification
 
 
-# SUMMARY
+## SUMMARY
 Our team's approach consists of the following main components. 
 - stage1 : **heatmap-based detection + gaussian-expanding-label + pretraining-dataset**
 - stage2 : **2.5d classification + level-wise modeling + two-step training**
 - augmentation : **cutmix(p=1.0)**
 - ensemble : **various backbone ensemble + tta-like ensemble**
 
-# STAGE1
+## STAGE1
 ### heatmap-based detection
 Drawing inspiration from [keypoint detection](https://paperswithcode.com/task/keypoint-detection), we developed a heatmap-based model to identify 25 classes. We needed to develop a total of three models, each designed to predict the given labels for their respective inputs.
 
@@ -27,7 +27,7 @@ While the performance with 3D CNNs was good, the 2D CNN combined with a sequenti
 
 For the backbone, efficientnet_b5 provided the best performance. For the axial_t2, we found that increasing the maximum length to accommodate longer sequences improved performance. Additionally, leveraging the [public dataset](https://www.kaggle.com/datasets/brendanartley/lumbar-coordinate-pretraining-dataset) allowed us to make further improvements.
 
-# STAGE2
+## STAGE2
 ### 2.5d classification
 The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
 
@@ -53,12 +53,12 @@ We employed weighted loss and any loss, freezing the model's backbone and traini
 
 Through this method, our team was able to significantly improve our scores compared to simply training with weighted loss and any loss.
 
-# AUGMENTATION
+## AUGMENTATION
 When training stage 2, we observed that the model quickly began to overfit. To prevent overfitting, we tried various methods, including flip, rotate, brightness, contrast, blur, and mixup. Among these, cutmix played the most significant role in increasing the auc score. In fact, using cutmix with p=1.0 resulted in the highest auc score.
 
 Additionally, we experimented with various methods, such as randomly adding ±1 at the z by from the crops or flipping the left and right labels. However, these approaches did not result in significant score improvements.
 
-# ENSEMBLE
+## ENSEMBLE
 Based on these methods, we developed various stage 1 and stage 2 models and performed an ensemble.
 
 ### various backbone ensemble
