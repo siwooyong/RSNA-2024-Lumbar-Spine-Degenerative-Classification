@@ -1,5 +1,6 @@
 # RSNA-2024-Lumbar-Spine-Degenerative-Classification
 🥇5th place solution for RSNA 2024 Lumbar Spine Degenerative Classification
+https://www.kaggle.com/competitions/rsna-2024-lumbar-spine-degenerative-classification
 
 
 # Summary
