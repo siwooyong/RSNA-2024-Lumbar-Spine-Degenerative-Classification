@@ -5,7 +5,7 @@
 # Summary
 Our team's approach consists of the following main components. 
 - stage1 : **heatmap-based detection + gaussian-expanding-label + pretraining-dataset**
-- stage2 : **2.5d classification + level-wise modeling + two-step training**
+- stage2 : **2.5d model(cnn + rnn) + level-wise modeling + two-step training**
 - augmentation : **cutmix(p=1.0)**
 - ensemble : **various backbone ensemble + tta-like ensemble**
 
@@ -28,7 +28,7 @@ While the performance with 3d unet was good, the 2d unet combined with a sequent
 For the backbone, efficientnet_b5 provided the best performance. For the axial_t2, we found that increasing the maximum length to accommodate longer sequences improved performance. Additionally, leveraging the [public dataset](https://www.kaggle.com/datasets/brendanartley/lumbar-coordinate-pretraining-dataset) allowed us to make further improvements.
 
 # Stage2
-### 2.5d classification
+### 2.5d model(cnn + rnn)
 The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
 
 ### level-wise modeling
