@@ -5,7 +5,7 @@
 # Summary
 Our team's approach consists of the following main components. 
 - stage1 : **heatmap-based detection + gaussian-expanding-label + external-dataset**
-- stage2 : **2.5d model(cnn + rnn) + level-wise modeling + two-step training**
+- stage2 : **2.5d model(cnn + rnn) + level-wise sequence modeling + two-step training**
 - augmentation : **cutmix(p=1.0)**
 - ensemble : **various backbone ensemble + tta-like ensemble**
 
@@ -29,14 +29,14 @@ For the backbone, efficientnet_b5 provided the best performance. For the axial_t
 
 # Stage2
 ### 2.5d model(cnn + rnn)
-We used the detection coordinates obtained from stage 1, cropping along the z-axis by ±2 and adjusting the x and y axes by ±32, and then resized the result (5, 64, 64) -> (5, 128, 128) for use in stage 2. The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
+We used the detection coordinates obtained from stage 1, cropping along the z-axis by ±2 and the x, y axes by ±32, and then resized the result (5, 64, 64) -> (5, 128, 128) for use in stage 2. The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
 
-### level-wise modeling
+### level-wise sequence modeling
 However, upon examining the provided data labels, we were able to make the following analysis:
 
 >When symptom 1 is present at the level, there is a high probability that symptoms 2 and 3 will also be present at the same level. 
 
-Therefore, we modified our approach to model sequence only the classes at the same level, rather than all 25 classes. This adjustment significantly improved our score. 
+Therefore, we modified our approach to model only the classes at the same level, rather than all 25 classes. This adjustment significantly improved our score. 
 
 ```python
 x = x.reshape(-1, 5, 5, self.hidden_size)
