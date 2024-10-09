@@ -29,7 +29,7 @@ For the backbone, efficientnet_b5 provided the best performance. For the axial_t
 
 # Stage2
 ### 2.5d model(cnn + rnn)
-The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
+We used the detection coordinates obtained from stage 1, cropping along the z-axis by ±2 and adjusting the x and y axes by ±32, and then resized the result to (5, 128, 128) for use in stage 2. The structure of our model is similar to a typical 2.5d model(cnn + rnn), but our team added an additional module to model the relationships between classes. In the early stages of the competition, we modeled the 25 classes using lstm. 
 
 ### level-wise modeling
 However, upon examining the provided data labels, we were able to make the following analysis:
